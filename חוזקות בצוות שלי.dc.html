@@ -54,6 +54,9 @@ textarea{font-family:inherit;resize:vertical;}
         <button onClick="{{ toggleRM }}" aria-label="החלפת מצב תנועה" title="מצב תנועה מופחתת" style="display:flex;align-items:center;gap:7px;background:#F3F1EC;border:1px solid rgba(23,22,22,.08);border-radius:999px;padding:6px 12px;cursor:pointer;color:#535353;font:500 13px Ploni;flex:0 0 auto;">
           <span style="width:8px;height:8px;border-radius:50%;background:{{ rmDot }};display:inline-block;"></span>{{ rmLabel }}
         </button>
+        <button onClick="{{ restart }}" aria-label="איפוס" title="התחלה מחדש — מחיקת כל הנתונים" style="display:flex;align-items:center;gap:6px;background:#F3F1EC;border:1px solid rgba(23,22,22,.08);border-radius:999px;padding:6px 12px;cursor:pointer;color:#535353;font:500 13px Ploni;flex:0 0 auto;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>איפוס
+        </button>
         <div class="hideSmall" style="display:flex;align-items:center;gap:12px;flex:0 0 auto;">
           <img src="assets/maccabi-logo.png" alt="מכבי שירותי בריאות" style="height:26px;width:auto;">
           <span style="width:1px;height:22px;background:rgba(23,22,22,.14);"></span>

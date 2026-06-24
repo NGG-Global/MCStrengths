@@ -141,49 +141,9 @@ textarea{font-family:inherit;resize:vertical;}
           <span style="flex:0 0 auto;width:26px;height:26px;border-radius:50%;border:2px solid #A7C86F;display:flex;align-items:center;justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7BA53F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
           <p style="margin:0;font:400 18px/1.65 Ploni;color:#2B2B2E;">אנשים שונים מוצאים את התיאורים נכונים להם ברמה כזו או אחרת. אנא ענה על פי מה שמשקף את הצוות שלך באופן המדויק ביותר על מנת לקבל את דירוג החוזקות הייחודיות לו. אין שגוי ונכון במענה על שאלון זה.</p>
         </div>
-        <div class="fadeup" style="animation-delay:.4s;display:flex;gap:14px;background:#fff;border-radius:18px;padding:18px 20px;box-shadow:0 8px 24px rgba(20,24,60,.05);border:1px solid rgba(23,22,22,.05);">
-          <span style="flex:0 0 auto;width:26px;height:26px;border-radius:50%;border:2px solid #A7C86F;display:flex;align-items:center;justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7BA53F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
-          <p style="margin:0;font:400 18px/1.65 Ploni;color:#2B2B2E;">סמן ב-X עבור כל תיאור עד כמה הוא משקף את הצוות בדירוג שבין 3-"במידה רבה" | 2 -"במידה בינונית" | 1-"במידה נמוכה".</p>
-        </div>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:30px;gap:12px;">
         <button onClick="{{ goAbout }}" style="background:none;border:none;color:#808285;font:500 16px Ploni;cursor:pointer;padding:10px 6px;">חזרה</button>
-        <button onClick="{{ goAfter }}" style="background:linear-gradient(145deg,#1E3C95,#0E1F6B);color:#fff;border:none;border-radius:999px;padding:14px 40px;font:600 18px Ploni;cursor:pointer;box-shadow:0 10px 26px rgba(20,24,60,.24);transition:transform .25s;" style-hover="transform:translateY(-2px);">המשך</button>
-      </div>
-    </section>
-    </sc-if>
-
-    <!-- ===== מסך 4: הנחיות לאחר ===== -->
-    <sc-if value="{{ isAfter }}" hint-placeholder-val="{{ false }}">
-    <section class="screen" data-screen-label="הנחיות לאחר ביצוע שאלון" aria-label="הנחיות לאחר ביצוע שאלון">
-      <h2 class="fadeup" style="animation-delay:.05s;font:600 28px Ploni;color:#040450;margin:0 0 8px;">הנחיות לאחר ביצוע שאלון</h2>
-      <p class="fadeup" style="animation-delay:.1s;font:500 14px Ploni;color:#AD2185;margin:0 0 20px;">תצוגה מקדימה — נחזור לכך מיד לאחר השאלון</p>
-      <div class="rise" style="animation-delay:.16s;background:#fff;border-radius:22px;padding:26px 24px;box-shadow:0 14px 40px rgba(20,24,60,.07);border:1px solid rgba(23,22,22,.05);">
-        <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px;">
-          <li style="display:flex;gap:12px;"><span style="color:#D25089;font-size:20px;line-height:1.5;flex:0 0 auto;">•</span><span style="font:400 18px/1.6 Ploni;color:#2B2B2E;">הקף את כל החוזקות שסימנת עליהן 3-"במידה רבה".</span></li>
-          <li style="display:flex;gap:12px;flex-direction:column;">
-            <div style="display:flex;gap:12px;"><span style="color:#D25089;font-size:20px;line-height:1.5;flex:0 0 auto;">•</span><span style="font:400 18px/1.6 Ploni;color:#2B2B2E;">מבין אותן תכונות, סמן בכוכבית את התכונות שנחשבות "חוזקות עיקריות" :</span></div>
-            <div style="margin-inline-start:28px;display:flex;flex-direction:column;gap:8px;background:#FBF4F8;border-radius:14px;padding:14px 16px;">
-              <div style="display:flex;gap:10px;font:400 17px/1.55 Ploni;color:#535353;"><span style="color:#AD2185;flex:0 0 auto;">✓</span>חוזקות שקל לצוות להביא לידי ביטוי בסיטואציות שונות</div>
-              <div style="display:flex;gap:10px;font:400 17px/1.55 Ploni;color:#535353;"><span style="color:#AD2185;flex:0 0 auto;">✓</span>חוזקות שהשימוש בהן מניע את הצוות</div>
-              <div style="display:flex;gap:10px;font:400 17px/1.55 Ploni;color:#535353;"><span style="color:#AD2185;flex:0 0 auto;">✓</span>חוזקות שסייעו לו במצבי לחץ, אי ודאות ואתגר</div>
-            </div>
-          </li>
-          <li style="display:flex;gap:12px;"><span style="color:#D25089;font-size:20px;line-height:1.5;flex:0 0 auto;">•</span><span style="font:400 18px/1.6 Ploni;color:#2B2B2E;">פנה אל "מילון החוזקות" (מטה אחרי השאלון) למידע נוסף על כל חוזקה</span></li>
-          <li style="display:flex;gap:12px;"><span style="color:#3C6FD1;font-size:20px;line-height:1.5;flex:0 0 auto;">•</span><span style="font:400 18px/1.6 Ploni;color:#2B2B2E;">הבט בחוזקות שסימנת ב- 2-"במידה בינונית", חוזקות אלו יכולות להתבטא בעוצמה בסיטואציות מסוימות.</span></li>
-          <li style="display:flex;gap:12px;"><span style="color:#8A9099;font-size:20px;line-height:1.5;flex:0 0 auto;">•</span><span style="font:400 18px/1.6 Ploni;color:#2B2B2E;">הבט בחוזקות שסימנת ב- 1-"במידה נמוכה", חוזקות אלו אינן באות לידי ביטוי בצורה מספיקה בצוות.</span></li>
-        </ul>
-      </div>
-      <div class="fadeup" style="animation-delay:.5s;margin-top:24px;display:flex;align-items:center;gap:10px;justify-content:center;">
-        <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(23,22,22,.07);border-radius:999px;padding:8px 14px;font:500 14px Ploni;color:#535353;"><span style="width:24px;height:24px;border-radius:50%;background:#EAF4F5;color:#1F9AA6;display:flex;align-items:center;justify-content:center;">1</span>דירוג</div>
-        <span style="color:#C9CACC;">←</span>
-        <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(23,22,22,.07);border-radius:999px;padding:8px 14px;font:500 14px Ploni;color:#535353;"><span style="width:24px;height:24px;border-radius:50%;background:#FBF0F6;color:#D25089;display:flex;align-items:center;justify-content:center;">★</span>חוזקות עיקריות</div>
-        <span style="color:#C9CACC;">←</span>
-        <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(23,22,22,.07);border-radius:999px;padding:8px 14px;font:500 14px Ploni;color:#535353;"><span style="width:24px;height:24px;border-radius:50%;background:#EBEFF9;color:#1E3C95;display:flex;align-items:center;justify-content:center;">✦</span>סיכום</div>
-      </div>
-      <p style="text-align:center;font:400 15px Ploni;color:#808285;margin:18px 0 0;">מיד נעבור לשאלון</p>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:12px;">
-        <button onClick="{{ goBefore }}" style="background:none;border:none;color:#808285;font:500 16px Ploni;cursor:pointer;padding:10px 6px;">חזרה</button>
         <button onClick="{{ goQuiz }}" style="background:linear-gradient(145deg,#D25089,#AD2185);color:#fff;border:none;border-radius:999px;padding:14px 44px;font:600 18px Ploni;cursor:pointer;box-shadow:0 12px 30px rgba(173,33,133,.3);transition:transform .25s;" style-hover="transform:translateY(-2px);">לשאלון</button>
       </div>
     </section>

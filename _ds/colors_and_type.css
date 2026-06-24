@@ -1,0 +1,289 @@
+/* ==========================================================================
+   Maccabi Ofek — Colors & Type
+   תוכנית פיתוח מנהלים | מכבי × NGG
+   ========================================================================== */
+
+/* ---------- Fonts ---------- */
+@font-face {
+  font-family: "Ploni";
+  src: url("fonts/Ploni-Ultralight-AAA.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ploni";
+  src: url("fonts/Ploni-Regular-AAA.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ploni";
+  src: url("fonts/Ploni-Medium-AAA.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ploni";
+  src: url("fonts/Ploni-Demibold-AAA.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ---------- Brand colors ----------
+     Sampled directly from the Ofek 2026 decks (slide masters + decorative
+     palette stripe). The primary navy carries authority + structure; magenta
+     is the signature accent for emphasis, badges, and connective lines; the
+     six-step decorative palette is used ONLY for category coding (modules,
+     chart series, bottom-stripe).
+  */
+
+  /* Primary — Navy ("מצפן ניהולי") */
+  --ofek-navy-900: #040450;        /* deepest navy — title slide ink, gradient anchor   */
+  --ofek-navy-800: #0E1F6B;        /* sidebar/gradient mid                                */
+  --ofek-navy-700: #1E3C95;        /* PRIMARY — section headers, sidebar fill            */
+  --ofek-navy-600: #1F3E9B;        /* hover / interactive primary                         */
+  --ofek-navy-500: #2B92B7;        /* secondary navy/teal — chart highlights              */
+  --ofek-navy-300: #B8C5E8;        /* tinted backgrounds                                  */
+  --ofek-navy-100: #EAEEF8;        /* surface tint                                        */
+
+  /* Accent — Magenta ("הדגשה") */
+  --ofek-magenta-900: #AD2185;     /* deep magenta — emphasis underlines                  */
+  --ofek-magenta-700: #D25089;     /* PRIMARY ACCENT — pink frames, badges, callouts     */
+  --ofek-magenta-500: #E37FA9;     /* mid                                                 */
+  --ofek-magenta-300: #F1B4CE;     /* powdery pink — backgrounds, secondary states        */
+  --ofek-magenta-100: #FBE6EF;     /* tint surface                                        */
+
+  /* Powder — softening color */
+  --ofek-powder-500: #F1B4CE;
+  --ofek-powder-300: #F8DDE9;
+  --ofek-powder-100: #FBE6EF;
+
+  /* Blush — large-area panel fill ("intermission" + "break" slides).
+     A dusty desert rose paired with deep navy in 30/70 or 40/60 splits.
+     This is a FILL color, not an accent — used at panel scale, never as text.
+  */
+  --ofek-blush-700: #C49199;       /* deeper blush — for shadows / depth on blush panels */
+  --ofek-blush-500: #DEAFB7;       /* PRIMARY BLUSH — the canonical panel fill           */
+  --ofek-blush-300: #ECCAD0;       /* lighter blush — secondary panels / soft backgrounds */
+  --ofek-blush-100: #F6E4E7;       /* tint — page backgrounds where blush is dominant     */
+
+  /* Categorical / decorative palette (used in module stripes + chart series) */
+  --ofek-cat-lavender: #6B76EC;
+  --ofek-cat-cyan:     #73D9F0;
+  --ofek-cat-green:    #A7C86F;
+  --ofek-cat-peach:    #F9BE94;
+  --ofek-cat-coral:    #F1717E;
+  --ofek-cat-magenta:  #D25089;
+
+  /* Neutrals */
+  --ofek-ink:          #171616;    /* body ink                                            */
+  --ofek-ink-2:        #2B2B2E;
+  --ofek-gray-700:     #535353;
+  --ofek-gray-600:     #595959;
+  --ofek-gray-500:     #808285;
+  --ofek-gray-300:     #C9CACC;
+  --ofek-gray-200:     #E2E3E5;
+  --ofek-gray-100:     #F3F4F6;
+  --ofek-paper:        #FAFAFB;    /* off-white surface                                   */
+  --ofek-white:        #FFFFFF;
+
+  /* Semantic — foreground */
+  --fg-1: var(--ofek-ink);
+  --fg-2: var(--ofek-gray-700);
+  --fg-3: var(--ofek-gray-500);
+  --fg-on-dark: var(--ofek-white);
+  --fg-accent: var(--ofek-magenta-700);
+  --fg-brand: var(--ofek-navy-700);
+
+  /* Semantic — backgrounds & surfaces */
+  --bg-page:        var(--ofek-paper);
+  --bg-surface:     var(--ofek-white);
+  --bg-tint:        var(--ofek-navy-100);
+  --bg-dark:        var(--ofek-navy-700);
+  --bg-dark-deep:   var(--ofek-navy-900);
+  --bg-soft:        #F4F1ED;       /* warm cream from the cactus/horizon photography     */
+
+  /* Semantic — strokes */
+  --stroke-1: rgba(23, 22, 22, 0.08);
+  --stroke-2: rgba(23, 22, 22, 0.14);
+  --stroke-accent: var(--ofek-magenta-700);
+  --stroke-brand: var(--ofek-navy-700);
+
+  /* Gradients — the brand backgrounds  */
+  --grad-sky:    linear-gradient(180deg, #DCE3EE 0%, #F3EFE8 100%); /* @kind color */
+  --grad-navy:   linear-gradient(180deg, var(--ofek-navy-700) 0%, var(--ofek-navy-900) 100%);
+  --grad-paper:  linear-gradient(180deg, #FFFFFF 0%, #F4F1ED 100%); /* @kind color */
+
+  /* Elevation (subtle — the brand barely uses shadows) */
+  --shadow-1: 0 1px 2px rgba(20, 24, 60, 0.04), 0 1px 1px rgba(20, 24, 60, 0.03);
+  --shadow-2: 0 6px 16px rgba(20, 24, 60, 0.06), 0 2px 4px rgba(20, 24, 60, 0.04);
+  --shadow-3: 0 18px 40px rgba(20, 24, 60, 0.10), 0 6px 12px rgba(20, 24, 60, 0.05);
+
+  /* Radii — softer than typical SaaS; matches the rounded pink frames + capsule badges  */
+  --r-xs: 4px;
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 22px;
+  --r-xl: 32px;
+  --r-pill: 999px;
+
+  /* Spacing scale (4-grid) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  /* ---------- Type system ----------
+     Display: Ploni Demibold (600). Headings use 500–600 in tight leading.
+     Body  : Ploni Regular (400) at 1.55–1.7 leading.
+     Hierarchy is built with WEIGHT + SIZE — never with all-caps (Hebrew has no case).
+  */
+  --font-family: "Ploni", "Assistant", "Heebo", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  --fs-display-1: clamp(48px, 5.6vw, 88px);  /* @kind font */
+  --fs-display-2: clamp(36px, 4vw, 64px);    /* @kind font */
+  --fs-h1: clamp(28px, 2.6vw, 44px);         /* @kind font */
+  --fs-h2: clamp(22px, 2.1vw, 32px);         /* @kind font */
+  --fs-h3: 22px;                              /* @kind font */
+  --fs-h4: 18px;                              /* @kind font */
+  --fs-body: 16px;                            /* @kind font */
+  --fs-body-lg: 18px;                         /* @kind font */
+  --fs-small: 14px;                           /* @kind font */
+  --fs-micro: 12px;                           /* @kind font */
+
+  --lh-tight: 1.1;  /* @kind font */
+  --lh-snug:  1.25; /* @kind font */
+  --lh-base:  1.55; /* @kind font */
+  --lh-loose: 1.7; /* @kind font */
+
+  --tracking-tight: -0.01em; /* @kind font */
+  --tracking-base: 0; /* @kind font */
+  --tracking-wide: 0.04em; /* @kind font */
+}
+
+/* ---------- Base ---------- */
+html { direction: rtl; }
+html[lang="en"], [dir="ltr"] { direction: ltr; }
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-base);
+  color: var(--fg-1);
+  background: var(--bg-page);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- Semantic type tokens ----------
+   Use these classes (or these vars) for consistent hierarchy.
+*/
+.ofek-display-1, h1.ofek-display {
+  font-weight: 600;
+  font-size: var(--fs-display-1);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-1);
+}
+.ofek-display-2 {
+  font-weight: 600;
+  font-size: var(--fs-display-2);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+}
+.ofek-h1, h1 {
+  font-weight: 600;
+  font-size: var(--fs-h1);
+  line-height: var(--lh-snug);
+  color: var(--fg-1);
+  margin: 0 0 var(--space-4) 0;
+}
+.ofek-h2, h2 {
+  font-weight: 600;
+  font-size: var(--fs-h2);
+  line-height: var(--lh-snug);
+  color: var(--fg-1);
+  margin: 0 0 var(--space-3) 0;
+}
+.ofek-h3, h3 {
+  font-weight: 600;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-snug);
+  margin: 0 0 var(--space-2) 0;
+}
+.ofek-h4, h4 {
+  font-weight: 500;
+  font-size: var(--fs-h4);
+  line-height: var(--lh-snug);
+  margin: 0 0 var(--space-2) 0;
+}
+.ofek-eyebrow {
+  font-weight: 500;
+  font-size: var(--fs-small);
+  letter-spacing: var(--tracking-wide);
+  color: var(--fg-accent);
+  text-transform: none;       /* Hebrew has no case; latin terms stay as set */
+}
+.ofek-body, p {
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-loose);
+  color: var(--fg-2);
+  margin: 0 0 var(--space-4) 0;
+  text-wrap: pretty;
+}
+.ofek-small, small {
+  font-size: var(--fs-small);
+  color: var(--fg-3);
+  line-height: var(--lh-base);
+}
+.ofek-lede {
+  font-weight: 400;
+  font-size: var(--fs-h3);
+  line-height: 1.45;
+  color: var(--fg-1);
+}
+.ofek-quote {
+  font-weight: 500;
+  font-size: var(--fs-h2);
+  line-height: 1.3;
+  color: var(--fg-brand);
+}
+
+/* Helpers — color */
+.ofek-fg-brand   { color: var(--fg-brand); }
+.ofek-fg-accent  { color: var(--fg-accent); }
+.ofek-fg-on-dark { color: var(--fg-on-dark); }
+.ofek-fg-2       { color: var(--fg-2); }
+.ofek-fg-3       { color: var(--fg-3); }
+
+/* The signature "magenta highlight" used in titles in the deck —
+   short emphasis run, never longer than 3-4 words. */
+.ofek-highlight  { color: var(--fg-accent); font-weight: 600; }
+
+/* The decorative 6-color bottom stripe is its own utility.
+   Use on full-bleed slide bottom edges. */
+.ofek-color-stripe {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  height: 14px;
+  width: 100%;
+}
+.ofek-color-stripe > * { display: block; }
+.ofek-color-stripe > :nth-child(1) { background: var(--ofek-cat-lavender); }
+.ofek-color-stripe > :nth-child(2) { background: var(--ofek-cat-cyan); }
+.ofek-color-stripe > :nth-child(3) { background: var(--ofek-cat-green); }
+.ofek-color-stripe > :nth-child(4) { background: var(--ofek-cat-peach); }
+.ofek-color-stripe > :nth-child(5) { background: var(--ofek-cat-coral); }
+.ofek-color-stripe > :nth-child(6) { background: var(--ofek-cat-magenta); }

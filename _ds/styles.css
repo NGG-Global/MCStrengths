@@ -1,0 +1,5 @@
+/* ==========================================================================
+   Maccabi Ofek — Design System · global entry point
+   Single stylesheet consumers can link. Pulls in the canonical tokens + type.
+   ========================================================================== */
+@import "colors_and_type.css";

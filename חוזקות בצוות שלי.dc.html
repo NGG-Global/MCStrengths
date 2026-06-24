@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+@font-face{font-family:"Ploni";src:url("fonts/Ploni-Ultralight-AAA.ttf") format("truetype");font-weight:200;font-display:swap;}
+@font-face{font-family:"Ploni";src:url("fonts/Ploni-Regular-AAA.ttf") format("truetype");font-weight:400;font-display:swap;}
+@font-face{font-family:"Ploni";src:url("fonts/Ploni-Medium-AAA.ttf") format("truetype");font-weight:500;font-display:swap;}
+@font-face{font-family:"Ploni";src:url("fonts/Ploni-Demibold-AAA.ttf") format("truetype");font-weight:600;font-display:swap;}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{font-family:"Ploni","Assistant","Heebo",system-ui,sans-serif;background:#EEF1F7;color:#171616;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+button{font-family:inherit;}
+textarea{font-family:inherit;resize:vertical;}
+@keyframes screenIn{from{transform:translateX(26px);}to{transform:none;}}
+@keyframes slideQ{from{transform:translateX(30px);}to{transform:none;}}
+@keyframes fadeUp{from{transform:translateY(16px);}to{transform:none;}}
+@keyframes popScale{0%{transform:scale(.7);}55%{transform:scale(1.16);}100%{transform:scale(1);}}
+@keyframes starPop{0%{transform:scale(.5) rotate(-18deg);}55%{transform:scale(1.3) rotate(6deg);}100%{transform:scale(1) rotate(0);}}
+@keyframes floatBadge{0%{opacity:0;transform:translateY(14px) scale(.9);}16%{opacity:1;transform:translateY(0) scale(1);}82%{opacity:1;transform:translateY(0) scale(1);}100%{opacity:0;transform:translateY(-10px) scale(.96);}}
+@keyframes shimmerMove{0%{background-position:140% 0;}100%{background-position:-40% 0;}}
+@keyframes riseIn{from{transform:translateY(22px) scale(.985);}to{transform:none;}}
+.screen{animation:screenIn .5s cubic-bezier(.2,.8,.25,1) both;}
+.qcard{animation:slideQ .42s cubic-bezier(.2,.8,.25,1) both;}
+.fadeup{animation:fadeUp .55s cubic-bezier(.2,.8,.25,1) both;}
+.rise{animation:riseIn .6s cubic-bezier(.2,.8,.25,1) both;}
+.shimmerStar{background-image:linear-gradient(100deg,#D25089 30%,#F6C9DC 50%,#D25089 70%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmerMove 3.2s linear infinite;}
+[data-rm="1"] .screen,[data-rm="1"] .qcard,[data-rm="1"] .fadeup,[data-rm="1"] .rise{animation:none!important;opacity:1!important;transform:none!important;}
+[data-rm="1"] .shimmerStar{animation:none!important;background:none;-webkit-background-clip:initial;background-clip:initial;color:#D25089;}
+[data-rm="1"] *{animation-duration:.001ms!important;transition-duration:.001ms!important;}
+::-webkit-scrollbar{width:10px;height:10px;}::-webkit-scrollbar-thumb{background:#C9CACC;border-radius:6px;}
+@media(max-width:600px){.hideSmall{display:none!important;}}
+:focus-visible{outline:3px solid rgba(210,80,137,.55);outline-offset:2px;border-radius:6px;}
+</style>
+</helmet>
+<div data-rm="{{ rmAttr }}" dir="rtl" lang="he" style="min-height:100vh;background:linear-gradient(165deg,#FAF7F2 0%,#EEF1F7 55%,#E7ECF5 100%);display:flex;flex-direction:column;padding-bottom:8px;">
+
+  <header style="position:sticky;top:0;z-index:60;background:rgba(255,255,255,.84);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(23,22,22,.08);">
+    <div style="max-width:1080px;margin:0 auto;padding:11px 18px 9px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1;">
+          <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(145deg,#1E3C95,#040450);display:flex;align-items:center;justify-content:center;flex:0 0 auto;box-shadow:0 4px 12px rgba(20,24,60,.22);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><polygon points="15.5 8.5 10.5 10.5 8.5 15.5 13.5 13.5 15.5 8.5" fill="#D25089" stroke="#D25089"></polygon></svg>
+          </div>
+          <strong style="font:600 18px/1.1 Ploni;color:#171616;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">חוזקות בצוות שלי</strong>
+        </div>
+        <button onClick="{{ toggleRM }}" aria-label="החלפת מצב תנועה" title="מצב תנועה מופחתת" style="display:flex;align-items:center;gap:7px;background:#F3F1EC;border:1px solid rgba(23,22,22,.08);border-radius:999px;padding:6px 12px;cursor:pointer;color:#535353;font:500 13px Ploni;flex:0 0 auto;">
+          <span style="width:8px;height:8px;border-radius:50%;background:{{ rmDot }};display:inline-block;"></span>{{ rmLabel }}
+        </button>
+        <div class="hideSmall" style="display:flex;align-items:center;gap:12px;flex:0 0 auto;">
+          <img src="assets/maccabi-logo.png" alt="מכבי שירותי בריאות" style="height:26px;width:auto;">
+          <span style="width:1px;height:22px;background:rgba(23,22,22,.14);"></span>
+          <img src="assets/ngg-logo.jpg" alt="NGG" style="height:30px;width:auto;border-radius:5px;">
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:10px;">
+        <div style="display:flex;gap:4px;flex:1;">
+          <sc-for list="{{ steps }}" as="st" hint-placeholder-count="9">
+            <div style="{{ st.style }}"></div>
+          </sc-for>
+        </div>
+        <span style="font:500 12px Ploni;color:#808285;white-space:nowrap;flex:0 0 auto;">{{ stepText }}</span>
+      </div>
+    </div>
+  </header>
+
+  <main style="flex:1;width:100%;max-width:780px;margin:0 auto;padding:30px 20px 64px;position:relative;">
+
+    <!-- ===== מסך 1: פתיחה ===== -->
+    <sc-if value="{{ isIntro }}" hint-placeholder-val="{{ true }}">
+    <section class="screen" data-screen-label="פתיחה" aria-label="פתיחה" style="text-align:center;padding-top:18px;">
+      <div style="position:relative;display:inline-block;margin-bottom:6px;">
+        <div class="fadeup" style="animation-delay:.05s;display:inline-flex;align-items:center;gap:8px;background:rgba(210,80,137,.1);color:#AD2185;font:500 14px Ploni;padding:7px 16px;border-radius:999px;">
+          <span style="width:7px;height:7px;border-radius:50%;background:#D25089;"></span>חוברת עבודה · מנהיגות חיובית
+        </div>
+      </div>
+      <h1 class="fadeup" style="animation-delay:.12s;font:600 clamp(40px,8vw,68px)/1.05 Ploni;letter-spacing:-.01em;margin:18px 0 8px;color:#040450;">חוזקות בצוות שלי</h1>
+      <div class="fadeup" style="animation-delay:.2s;width:64px;height:4px;border-radius:3px;background:#D25089;margin:14px auto 30px;"></div>
+      <div style="max-width:560px;margin:0 auto;text-align:right;display:flex;flex-direction:column;gap:14px;">
+        <div class="fadeup" style="animation-delay:.34s;display:flex;gap:14px;align-items:flex-start;background:#fff;border-radius:18px;padding:18px 20px;box-shadow:0 8px 26px rgba(20,24,60,.06);border:1px solid rgba(23,22,22,.05);">
+          <span style="flex:0 0 auto;width:30px;height:30px;border-radius:50%;background:#EAF4F5;color:#1F9AA6;display:flex;align-items:center;justify-content:center;font:600 16px Ploni;">1</span>
+          <p style="margin:0;font:400 18px/1.6 Ploni;color:#2B2B2E;">חשוב על הצוות שלך והשב על היגדי השאלון על מנת לאפיין את חוזקותיו</p>
+        </div>
+        <div class="fadeup" style="animation-delay:.46s;display:flex;gap:14px;align-items:flex-start;background:#fff;border-radius:18px;padding:18px 20px;box-shadow:0 8px 26px rgba(20,24,60,.06);border:1px solid rgba(23,22,22,.05);">
+          <span style="flex:0 0 auto;width:30px;height:30px;border-radius:50%;background:#F3ECFB;color:#6B76EC;display:flex;align-items:center;justify-content:center;font:600 16px Ploni;">2</span>
+          <p style="margin:0;font:400 18px/1.6 Ploni;color:#2B2B2E;">עבד את תוצאות השאלון וסכם את החוזקות המרכזיות שמצאת</p>
+        </div>
+      </div>
+      <div class="rise" style="animation-delay:.62s;margin-top:38px;">
+        <button onClick="{{ goAbout }}" style="background:linear-gradient(145deg,#1E3C95,#0E1F6B);color:#fff;border:none;border-radius:999px;padding:16px 52px;font:600 19px Ploni;cursor:pointer;box-shadow:0 12px 30px rgba(20,24,60,.28);transition:transform .25s,box-shadow .25s;" style-hover="transform:translateY(-2px);box-shadow:0 16px 38px rgba(20,24,60,.34);">התחל/י</button>
+      </div>
+      <div class="fadeup" style="animation-delay:.78s;margin-top:52px;display:flex;flex-direction:column;align-items:center;gap:12px;">
+        <span style="font:500 12px Ploni;color:#9AA0A8;letter-spacing:.04em;">בשיתוף</span>
+        <div style="display:flex;align-items:center;gap:18px;">
+          <img src="assets/maccabi-logo.png" alt="מכבי שירותי בריאות" style="height:34px;width:auto;">
+          <span style="width:1px;height:30px;background:rgba(23,22,22,.12);"></span>
+          <img src="assets/ngg-logo.jpg" alt="NGG" style="height:42px;width:auto;border-radius:7px;">
+        </div>
+      </div>
+    </section>
+    </sc-if>
+
+    <!-- ===== מסך 2: שאלון VIA — הסבר ===== -->
+    <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+    <section class="screen" data-screen-label="שאלון VIA איתור חוזקות" aria-label="שאלון VIA איתור חוזקות">
+      <div class="fadeup" style="animation-delay:.05s;font:500 14px Ploni;color:#AD2185;margin-bottom:8px;">שאלון VIA איתור חוזקות</div>
+      <div class="rise" style="animation-delay:.12s;background:#fff;border-radius:24px;padding:34px 30px;box-shadow:0 16px 44px rgba(20,24,60,.08);border:1px solid rgba(23,22,22,.05);position:relative;overflow:hidden;">
+        <div style="position:absolute;top:-40px;left:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(115,217,240,.22),transparent 70%);"></div>
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;position:relative;">
+          <div style="width:54px;height:54px;border-radius:16px;background:linear-gradient(145deg,#D25089,#AD2185);display:flex;align-items:center;justify-content:center;flex:0 0 auto;box-shadow:0 8px 20px rgba(173,33,133,.3);">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          </div>
+          <h2 style="margin:0;font:600 26px Ploni;color:#040450;">הסבר</h2>
+        </div>
+        <p style="margin:0;font:400 19px/1.75 Ploni;color:#2B2B2E;position:relative;">שאלון VIA  נוצר על ידי כריסטופר פטרסון ומרטין זליגמן על בסיס מחקרם בנושא חוזקות וערכים (Character Strengths and Virtues: A Handbook and Classification, 2004). השאלון המובא כאן הינו שאלון מקוצר של שאלון VIA המקורי וכולל 24 תיאורי חוזקות.</p>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:30px;gap:12px;">
+        <button onClick="{{ goIntro }}" style="background:none;border:none;color:#808285;font:500 16px Ploni;cursor:pointer;padding:10px 6px;">חזרה</button>
+        <button onClick="{{ goBefore }}" style="background:linear-gradient(145deg,#1E3C95,#0E1F6B);color:#fff;border:none;border-radius:999px;padding:14px 40px;font:600 18px Ploni;cursor:pointer;box-shadow:0 10px 26px rgba(20,24,60,.24);transition:transform .25s;" style-hover="transform:translateY(-2px);">להנחיות</button>
+      </div>
+    </section>
+    </sc-if>
+
+    <!-- ===== מסך 3: הנחיות לפני ===== -->
+    <sc-if value="{{ isBefore }}" hint-placeholder-val="{{ false }}">
+    <section class="screen" data-screen-label="הנחיות לפני ביצוע שאלון" aria-label="הנחיות לפני ביצוע שאלון">
+      <h2 class="fadeup" style="animation-delay:.05s;font:600 28px Ploni;color:#040450;margin:0 0 22px;">הנחיות לפני ביצוע שאלון</h2>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="fadeup" style="animation-delay:.16s;display:flex;gap:14px;background:#fff;border-radius:18px;padding:18px 20px;box-shadow:0 8px 24px rgba(20,24,60,.05);border:1px solid rgba(23,22,22,.05);">
+          <span style="flex:0 0 auto;width:26px;height:26px;border-radius:50%;border:2px solid #A7C86F;display:flex;align-items:center;justify-content:center;color:#7BA53F;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7BA53F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+          <p style="margin:0;font:400 18px/1.65 Ploni;color:#2B2B2E;">ההנחיות מנוסחות בצורת זכר אך מכוונות לשני המינים באותה המידה.</p>
+        </div>
+        <div class="fadeup" style="animation-delay:.28s;display:flex;gap:14px;background:#fff;border-radius:18px;padding:18px 20px;box-shadow:0 8px 24px rgba(20,24,60,.05);border:1px solid rgba(23,22,22,.05);">
+          <span style="flex:0 0 auto;width:26px;height:26px;border-radius:50%;border:2px solid #A7C86F;display:flex;align-items:center;justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7BA53F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+          <p style="margin:0;font:400 18px/1.65 Ploni;color:#2B2B2E;">אנשים שונים מוצאים את התיאורים נכונים להם ברמה כזו או אחרת. אנא ענה על פי מה שמשקף את הצוות שלך באופן המדויק ביותר על מנת לקבל את דירוג החוזקות הייחודיות לו. אין שגוי ונכון במענה על שאלון זה.</p>
+        </div>
+        <div class="fadeup" style="animation-delay:.4s;display:flex;gap:14px;background:#fff;border-radius:18px;padding:18px 20px;box-shadow:0 8px 24px rgba(20,24,60,.05);border:1px solid rgba(23,22,22,.05);">
+          <span style="flex:0 0 auto;width:26px;height:26px;border-radius:50%;border:2px solid #A7C86F;display:flex;align-items:center;justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7BA53F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+          <p style="margin:0;font:400 18px/1.65 Ploni;color:#2B2B2E;">סמן ב-X עבור כל תיאור עד כמה הוא משקף את הצוות בדירוג שבין 3-"במידה רבה" | 2 -"במידה בינונית" | 1-"במידה נמוכה".</p>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:30px;gap:12px;">
+        <button onClick="{{ goAbout }}" style="background:none;border:none;color:#808285;font:500 16px Ploni;cursor:pointer;padding:10px 6px;">חזרה</button>
+        <button onClick="{{ goAfter }}" style="background:linear-gradient(145deg,#1E3C95,#0E1F6B);color:#fff;border:none;border-radius:999px;padding:14px 40px;font:600 18px Ploni;cursor:pointer;box-shadow:0 10px 26px rgba(20,24,60,.24);transition:transform .25s;" style-hover="transform:translateY(-2px);">המשך</button>
+      </div>
+    </section>
+    </sc-if>
+
+    <!-- ===== מסך 4: הנחיות לאחר ===== -->
+    <sc-if value="{{ isAfter }}" hint-placeholder-val="{{ false }}">
+    <section class="screen" data-screen-label="הנחיות לאחר ביצוע שאלון" aria-label="הנחיות לאחר ביצוע שאלון">
+      <h2 class="fadeup" style="animation-delay:.05s;font:600 28px Ploni;color:#040450;margin:0 0 8px;">הנחיות לאחר ביצוע שאלון</h2>
+      <p class="fadeup" style="animation-delay:.1s;font:500 14px Ploni;color:#AD2185;margin:0 0 20px;">תצוגה מקדימה — נחזור לכך מיד לאחר השאלון</p>
+      <div class="rise" style="animation-delay:.16s;background:#fff;border-radius:22px;padding:26px 24px;box-shadow:0 14px 40px rgba(20,24,60,.07);border:1px solid rgba(23,22,22,.05);">
+        <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px;">
+          <li style="display:flex;gap:12px;"><span style="color:#D25089;font-size:20px;line-height:1.5;flex:0 0 auto;">•</span><span style="font:400 18px/1.6 Ploni;color:#2B2B2E;">הקף את כל החוזקות שסימנת עליהן 3-"במידה רבה".</span></li>
+          <li style="display:flex;gap:12px;flex-direction:column;">
+            <div style="display:flex;gap:12px;"><span style="color:#D25089;font-size:20px;line-height:1.5;flex:0 0 auto;">•</span><span style="font:400 18px/1.6 Ploni;color:#2B2B2E;">מבין אותן תכונות, סמן בכוכבית את התכונות שנחשבות "חוזקות עיקריות" :</span></div>
+            <div style="margin-inline-start:28px;display:flex;flex-direction:column;gap:8px;background:#FBF4F8;border-radius:14px;padding:14px 16px;">
+              <div style="display:flex;gap:10px;font:400 17px/1.55 Ploni;color:#535353;"><span style="color:#AD2185;flex:0 0 auto;">✓</span>חוזקות שקל לצוות להביא לידי ביטוי בסיטואציות שונות</div>
+              <div style="display:flex;gap:10px;font:400 17px/1.55 Ploni;color:#535353;"><span style="color:#AD2185;flex:0 0 auto;">✓</span>חוזקות שהשימוש בהן מניע את הצוות</div>
+              <div style="display:flex;gap:10px;font:400 17px/1.55 Ploni;color:#535353;"><span style="color:#AD2185;flex:0 0 auto;">✓</span>חוזקות שסייעו לו במצבי לחץ, אי ודאות ואתגר</div>
+            </div>
+          </li>
+          <li style="display:flex;gap:12px;"><span style="color:#D25089;font-size:20px;line-height:1.5;flex:0 0 auto;">•</span><span style="font:400 18px/1.6 Ploni;color:#2B2B2E;">פנה אל "מילון החוזקות" (מטה אחרי השאלון) למידע נוסף על כל חוזקה</span></li>
+          <li style="display:flex;gap:12px;"><span style="color:#3C6FD1;font-size:20px;line-height:1.5;flex:0 0 auto;">•</span><span style="font:400 18px/1.6 Ploni;color:#2B2B2E;">הבט בחוזקות שסימנת ב- 2-"במידה בינונית", חוזקות אלו יכולות להתבטא בעוצמה בסיטואציות מסוימות.</span></li>
+          <li style="display:flex;gap:12px;"><span style="color:#8A9099;font-size:20px;line-height:1.5;flex:0 0 auto;">•</span><span style="font:400 18px/1.6 Ploni;color:#2B2B2E;">הבט בחוזקות שסימנת ב- 1-"במידה נמוכה", חוזקות אלו אינן באות לידי ביטוי בצורה מספיקה בצוות.</span></li>
+        </ul>
+      </div>
+      <div class="fadeup" style="animation-delay:.5s;margin-top:24px;display:flex;align-items:center;gap:10px;justify-content:center;">
+        <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(23,22,22,.07);border-radius:999px;padding:8px 14px;font:500 14px Ploni;color:#535353;"><span style="width:24px;height:24px;border-radius:50%;background:#EAF4F5;color:#1F9AA6;display:flex;align-items:center;justify-content:center;">1</span>דירוג</div>
+        <span style="color:#C9CACC;">←</span>
+        <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(23,22,22,.07);border-radius:999px;padding:8px 14px;font:500 14px Ploni;color:#535353;"><span style="width:24px;height:24px;border-radius:50%;background:#FBF0F6;color:#D25089;display:flex;align-items:center;justify-content:center;">★</span>חוזקות עיקריות</div>
+        <span style="color:#C9CACC;">←</span>
+        <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(23,22,22,.07);border-radius:999px;padding:8px 14px;font:500 14px Ploni;color:#535353;"><span style="width:24px;height:24px;border-radius:50%;background:#EBEFF9;color:#1E3C95;display:flex;align-items:center;justify-content:center;">✦</span>סיכום</div>
+      </div>
+      <p style="text-align:center;font:400 15px Ploni;color:#808285;margin:18px 0 0;">מיד נעבור לשאלון</p>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:12px;">
+        <button onClick="{{ goBefore }}" style="background:none;border:none;color:#808285;font:500 16px Ploni;cursor:pointer;padding:10px 6px;">חזרה</button>
+        <button onClick="{{ goQuiz }}" style="background:linear-gradient(145deg,#D25089,#AD2185);color:#fff;border:none;border-radius:999px;padding:14px 44px;font:600 18px Ploni;cursor:pointer;box-shadow:0 12px 30px rgba(173,33,133,.3);transition:transform .25s;" style-hover="transform:translateY(-2px);">לשאלון</button>
+      </div>
+    </section>
+    </sc-if>
+
+    <!-- ===== מסך 5: שאלון VIA ===== -->
+    <sc-if value="{{ isQuiz }}" hint-placeholder-val="{{ false }}">
+    <section class="screen" data-screen-label="שאלון VIA" aria-label="שאלון VIA">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+        <span style="font:500 14px Ploni;color:#AD2185;">שאלון VIA</span>
+        <span style="font:600 15px Ploni;color:#1E3C95;">שאלה {{ qNum }} מתוך 24</span>
+      </div>
+      <div style="height:8px;background:#E4E2DD;border-radius:5px;overflow:hidden;margin-bottom:22px;">
+        <div style="{{ qBarStyle }}"></div>
+      </div>
+
+      <div class="qcard" key="{{ qNum }}" style="{{ qCardStyle }}">
+        <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:14px;">
+          <div style="flex:0 0 auto;width:48px;height:48px;border-radius:14px;background:linear-gradient(145deg,#1E3C95,#0E1F6B);color:#fff;display:flex;align-items:center;justify-content:center;font:600 22px Ploni;box-shadow:0 6px 16px rgba(20,24,60,.2);">{{ qNum }}</div>
+          <div style="flex:1;">
+            <h2 style="margin:0;font:600 27px Ploni;color:#040450;line-height:1.15;">{{ qName }}</h2>
+          </div>
+        </div>
+        <p style="margin:0 0 22px;font:400 18px/1.65 Ploni;color:#2B2B2E;">{{ qDesc }}</p>
+        <div role="radiogroup" aria-label="דירוג" style="display:flex;flex-direction:column;gap:11px;">
+          <sc-for list="{{ ratingOptions }}" as="opt" hint-placeholder-count="3">
+            <button onClick="{{ opt.onClick }}" role="radio" aria-checked="{{ opt.selected }}" aria-label="{{ opt.aria }}" style="{{ opt.style }}">
+              <span style="{{ opt.badgeStyle }}">{{ opt.num }}</span>
+              <span style="flex:1;text-align:right;">{{ opt.label }}</span>
+              <span style="{{ opt.checkStyle }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;gap:12px;">
+        <button onClick="{{ qPrev }}" style="display:flex;align-items:center;gap:6px;background:#fff;border:1px solid rgba(23,22,22,.1);color:#535353;font:500 16px Ploni;cursor:pointer;padding:12px 22px;border-radius:999px;">→ הקודם</button>
+        <button onClick="{{ qNext }}" disabled="{{ qNextDisabled }}" style="{{ qNextStyle }}">{{ qNextLabel }}</button>
+      </div>
+
+      <div style="margin-top:26px;">
+        <div style="font:500 13px Ploni;color:#808285;margin-bottom:10px;">מפת השאלון</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(34px,1fr));gap:7px;">
+          <sc-for list="{{ quizMap }}" as="d" hint-placeholder-count="24">
+            <button onClick="{{ d.onClick }}" aria-label="{{ d.aria }}" style="{{ d.style }}">{{ d.num }}</button>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+    </sc-if>
+
+    <!-- ===== מסך 6: עיבוד תוצאות ===== -->
+    <sc-if value="{{ isResults }}" hint-placeholder-val="{{ false }}">
+    <section class="screen" data-screen-label="עיבוד תוצאות השאלון" aria-label="עיבוד תוצאות השאלון">
+      <h2 class="fadeup" style="animation-delay:.04s;font:600 28px Ploni;color:#040450;margin:0 0 4px;">עיבוד תוצאות השאלון</h2>
+
+      <div class="rise" style="animation-delay:.1s;background:#fff;border-radius:22px;padding:24px 22px;box-shadow:0 14px 40px rgba(20,24,60,.07);border:1px solid rgba(23,22,22,.05);margin-top:18px;border-top:4px solid #1F9AA6;">
+        <h3 style="margin:0 0 6px;font:600 21px Ploni;color:#1F9AA6;">החוזקות שסימנת עליהן 3-"במידה רבה"</h3>
+        <p style="margin:0 0 8px;font:400 16px/1.6 Ploni;color:#535353;">מבין אותן תכונות, סמן בכוכבית את התכונות שנחשבות "חוזקות עיקריות" :</p>
+        <div style="display:flex;flex-direction:column;gap:6px;background:#FBF4F8;border-radius:12px;padding:12px 14px;margin-bottom:18px;">
+          <div style="display:flex;gap:9px;font:400 15px/1.5 Ploni;color:#535353;"><span style="color:#AD2185;flex:0 0 auto;">✓</span>חוזקות שקל לצוות להביא לידי ביטוי בסיטואציות שונות</div>
+          <div style="display:flex;gap:9px;font:400 15px/1.5 Ploni;color:#535353;"><span style="color:#AD2185;flex:0 0 auto;">✓</span>חוזקות שהשימוש בהן מניע את הצוות</div>
+          <div style="display:flex;gap:9px;font:400 15px/1.5 Ploni;color:#535353;"><span style="color:#AD2185;flex:0 0 auto;">✓</span>חוזקות שסייעו לו במצבי לחץ, אי ודאות ואתגר</div>
+        </div>
+        <sc-if value="{{ has3 }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-wrap:wrap;gap:10px;">
+          <sc-for list="{{ rated3 }}" as="it" hint-placeholder-count="0">
+            <div class="fadeup" style="animation-delay:{{ it.delay }};display:flex;align-items:center;gap:10px;background:#EAF4F5;border:1.5px solid {{ it.borderC }};border-radius:14px;padding:9px 8px 9px 14px;">
+              <button onClick="{{ it.onStar }}" aria-label="{{ it.aria }}" aria-pressed="{{ it.starred }}" style="{{ it.starStyle }}"><span style="{{ it.starGlyphStyle }}">★</span></button>
+              <span style="font:500 16px Ploni;color:#0E1F6B;">{{ it.name }}</span>
+            </div>
+          </sc-for>
+        </div>
+        </sc-if>
+        <sc-if value="{{ no3 }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font:400 16px Ploni;color:#808285;">לא סומנו חוזקות בדירוג זה.</p></sc-if>
+      </div>
+
+      <div class="rise" style="animation-delay:.2s;background:#fff;border-radius:22px;padding:24px 22px;box-shadow:0 14px 40px rgba(20,24,60,.07);border:1px solid rgba(23,22,22,.05);margin-top:16px;border-top:4px solid #3C6FD1;">
+        <h3 style="margin:0 0 6px;font:600 21px Ploni;color:#3C6FD1;">חוזקות שסימנת ב- 2-"במידה בינונית"</h3>
+        <p style="margin:0 0 14px;font:400 16px/1.6 Ploni;color:#535353;">חוזקות אלו יכולות להתבטא בעוצמה בסיטואציות מסוימות.</p>
+        <sc-if value="{{ has2 }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-wrap:wrap;gap:9px;">
+          <sc-for list="{{ rated2 }}" as="it" hint-placeholder-count="0">
+            <span class="fadeup" style="animation-delay:{{ it.delay }};font:500 15px Ploni;color:#1E3C95;background:#EBEFF9;border-radius:12px;padding:9px 16px;">{{ it.name }}</span>
+          </sc-for>
+        </div>
+        </sc-if>
+        <sc-if value="{{ no2 }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font:400 16px Ploni;color:#808285;">לא סומנו חוזקות בדירוג זה.</p></sc-if>
+      </div>
+
+      <div class="rise" style="animation-delay:.3s;background:#fff;border-radius:22px;padding:24px 22px;box-shadow:0 14px 40px rgba(20,24,60,.07);border:1px solid rgba(23,22,22,.05);margin-top:16px;border-top:4px solid #9AA0A8;">
+        <h3 style="margin:0 0 6px;font:600 21px Ploni;color:#6B7079;">חוזקות שסימנת ב- 1-"במידה נמוכה"</h3>
+        <p style="margin:0 0 14px;font:400 16px/1.6 Ploni;color:#535353;">חוזקות אלו אינן באות לידי ביטוי בצורה מספיקה בצוות.</p>
+        <sc-if value="{{ has1 }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-wrap:wrap;gap:9px;">
+          <sc-for list="{{ rated1 }}" as="it" hint-placeholder-count="0">
+            <span class="fadeup" style="animation-delay:{{ it.delay }};font:500 15px Ploni;color:#5B6068;background:#F1F1F0;border-radius:12px;padding:9px 16px;">{{ it.name }}</span>
+          </sc-for>
+        </div>
+        </sc-if>
+        <sc-if value="{{ no1 }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font:400 16px Ploni;color:#808285;">לא סומנו חוזקות בדירוג זה.</p></sc-if>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:28px;gap:12px;">
+        <button onClick="{{ goQuizLast }}" style="background:none;border:none;color:#808285;font:500 16px Ploni;cursor:pointer;padding:10px 6px;">חזרה לשאלון</button>
+        <button onClick="{{ goDict }}" style="background:linear-gradient(145deg,#1E3C95,#0E1F6B);color:#fff;border:none;border-radius:999px;padding:14px 40px;font:600 18px Ploni;cursor:pointer;box-shadow:0 10px 26px rgba(20,24,60,.24);transition:transform .25s;" style-hover="transform:translateY(-2px);">המשך</button>
+      </div>
+    </section>
+    </sc-if>
+
+    <!-- ===== מסך 7: מילון החוזקות ===== -->
+    <sc-if value="{{ isDict }}" hint-placeholder-val="{{ false }}">
+    <section class="screen" data-screen-label="מילון החוזקות" aria-label="מילון החוזקות">
+      <h2 class="fadeup" style="animation-delay:.04s;font:600 28px Ploni;color:#040450;margin:0 0 16px;">מילון החוזקות</h2>
+      <div class="fadeup" style="animation-delay:.1s;display:flex;gap:8px;background:#F3F1EC;border-radius:999px;padding:5px;margin-bottom:18px;width:fit-content;">
+        <button onClick="{{ dictAll }}" style="{{ dictAllStyle }}">הצג הכל</button>
+        <button onClick="{{ dictMarked }}" style="{{ dictMarkedStyle }}">הצג את החוזקות שסימנתי בלבד</button>
+      </div>
+      <sc-if value="{{ dictEmpty }}" hint-placeholder-val="{{ false }}">
+        <p style="font:400 16px Ploni;color:#808285;background:#fff;border-radius:14px;padding:18px;text-align:center;">לא סומנו חוזקות בדירוג 3-"במידה רבה".</p>
+      </sc-if>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <sc-for list="{{ dictItems }}" as="it" hint-placeholder-count="24">
+          <div class="fadeup" style="animation-delay:{{ it.delay }};border:1px solid #ECEAE4;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 4px 14px rgba(20,24,60,.04);">
+            <button onClick="{{ it.onToggle }}" aria-expanded="{{ it.isOpen }}" style="display:flex;width:100%;align-items:center;gap:10px;padding:16px 18px;background:none;border:none;cursor:pointer;text-align:right;">
+              <span style="font:600 18px Ploni;color:#1E3C95;">{{ it.term }}</span>
+              <sc-if value="{{ it.starred }}" hint-placeholder-val="{{ false }}"><span class="shimmerStar" style="font-size:16px;">★</span></sc-if>
+              <span style="{{ it.chevStyle }}">▾</span>
+            </button>
+            <div style="{{ it.bodyStyle }}">
+              <p style="margin:0;padding:0 18px 18px;font:400 16px/1.7 Ploni;color:#535353;">{{ it.def }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:28px;gap:12px;">
+        <button onClick="{{ goResults }}" style="background:none;border:none;color:#808285;font:500 16px Ploni;cursor:pointer;padding:10px 6px;">חזרה</button>
+        <button onClick="{{ goReflect }}" style="background:linear-gradient(145deg,#1E3C95,#0E1F6B);color:#fff;border:none;border-radius:999px;padding:14px 40px;font:600 18px Ploni;cursor:pointer;box-shadow:0 10px 26px rgba(20,24,60,.24);transition:transform .25s;" style-hover="transform:translateY(-2px);">המשך</button>
+      </div>
+    </section>
+    </sc-if>
+
+    <!-- ===== מסך 8: שאלות רפלקציה ===== -->
+    <sc-if value="{{ isReflect }}" hint-placeholder-val="{{ false }}">
+    <section class="screen" data-screen-label="שאלות רפלקציה" aria-label="שאלות רפלקציה">
+      <h2 class="fadeup" style="animation-delay:.04s;font:600 26px/1.3 Ploni;color:#040450;margin:0 0 20px;">התמקד בחוזקות שאיתרת וענה על השאלות הבאות:</h2>
+      <sc-if value="{{ hasPrimary }}" hint-placeholder-val="{{ false }}">
+        <div class="fadeup" style="animation-delay:.1s;background:#FBF4F8;border:1px solid rgba(210,80,137,.2);border-radius:16px;padding:14px 18px;margin-bottom:22px;">
+          <div style="font:500 14px Ploni;color:#AD2185;margin-bottom:8px;">החוזקות העיקריות שבחרת</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <sc-for list="{{ primaryList }}" as="p" hint-placeholder-count="0">
+              <span style="display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid rgba(210,80,137,.25);border-radius:999px;padding:6px 13px;font:500 14px Ploni;color:#0E1F6B;"><span style="color:#D25089;">★</span>{{ p.name }}</span>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+      <div style="display:flex;flex-direction:column;gap:18px;">
+        <sc-for list="{{ reflections }}" as="r" hint-placeholder-count="3">
+          <div class="fadeup" style="animation-delay:{{ r.delay }};background:#fff;border-radius:18px;padding:22px;box-shadow:0 10px 30px rgba(20,24,60,.06);border:1px solid rgba(23,22,22,.05);">
+            <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
+              <span style="flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:linear-gradient(145deg,#1E3C95,#0E1F6B);color:#fff;display:flex;align-items:center;justify-content:center;font:600 17px Ploni;">{{ r.num }}</span>
+              <div style="flex:1;display:flex;flex-direction:column;gap:4px;padding-top:2px;">
+                <sc-for list="{{ r.lines }}" as="ln" hint-placeholder-count="1">
+                  <p style="margin:0;font:500 18px/1.5 Ploni;color:#171616;">{{ ln }}</p>
+                </sc-for>
+              </div>
+              <sc-if value="{{ r.done }}" hint-placeholder-val="{{ false }}">
+                <span style="flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:#EAF6EE;display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3DB874" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+              </sc-if>
+            </div>
+            <textarea value="{{ r.value }}" onInput="{{ r.onChange }}" placeholder="כתוב/י כאן…" aria-label="{{ r.aria }}" style="width:100%;min-height:120px;border:1.5px solid #E4E2DD;border-radius:14px;padding:14px 16px;font:400 16px/1.6 Ploni;color:#171616;background:#FAFAF8;transition:border-color .25s,box-shadow .25s;outline:none;" style-focus="border-color:#1E3C95;box-shadow:0 0 0 4px rgba(30,60,149,.1);background:#fff;"></textarea>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:28px;gap:12px;">
+        <button onClick="{{ goDict }}" style="background:none;border:none;color:#808285;font:500 16px Ploni;cursor:pointer;padding:10px 6px;">חזרה למילון</button>
+        <button onClick="{{ goSummary }}" style="background:linear-gradient(145deg,#D25089,#AD2185);color:#fff;border:none;border-radius:999px;padding:14px 44px;font:600 18px Ploni;cursor:pointer;box-shadow:0 12px 30px rgba(173,33,133,.3);transition:transform .25s;" style-hover="transform:translateY(-2px);">הצג סיכום</button>
+      </div>
+    </section>
+    </sc-if>
+
+    <!-- ===== מסך 9: סיכום ===== -->
+    <sc-if value="{{ isSummary }}" hint-placeholder-val="{{ false }}">
+    <section class="screen" data-screen-label="סיכום חוזקות בצוות שלי" aria-label="סיכום חוזקות בצוות שלי">
+      <div style="text-align:center;margin-bottom:26px;">
+        <div class="fadeup" style="animation-delay:.04s;display:inline-flex;align-items:center;gap:8px;background:rgba(210,80,137,.1);color:#AD2185;font:500 13px Ploni;padding:6px 14px;border-radius:999px;margin-bottom:12px;">סיכום אישי</div>
+        <h2 class="fadeup" style="animation-delay:.1s;font:600 clamp(28px,5vw,40px)/1.1 Ploni;color:#040450;margin:0;">סיכום חוזקות בצוות שלי</h2>
+      </div>
+
+      <div class="rise" style="animation-delay:.2s;background:linear-gradient(155deg,#1E3C95,#040450);border-radius:24px;padding:26px 24px;box-shadow:0 20px 50px rgba(20,24,60,.2);position:relative;overflow:hidden;">
+        <div style="position:absolute;top:-30px;left:-30px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(210,80,137,.4),transparent 70%);"></div>
+        <h3 style="margin:0 0 14px;font:600 20px Ploni;color:#fff;display:flex;align-items:center;gap:8px;"><span style="color:#F1B4CE;">★</span>חוזקות עיקריות</h3>
+        <sc-if value="{{ hasPrimary }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-wrap:wrap;gap:10px;position:relative;">
+          <sc-for list="{{ primaryList }}" as="p" hint-placeholder-count="0">
+            <span class="fadeup" style="animation-delay:{{ p.delay }};display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.14);border:1px solid rgba(241,180,206,.4);border-radius:999px;padding:9px 16px;font:600 16px Ploni;color:#fff;"><span style="color:#F1B4CE;">★</span>{{ p.name }}</span>
+          </sc-for>
+        </div>
+        </sc-if>
+        <sc-if value="{{ noPrimary }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font:400 16px Ploni;color:rgba(255,255,255,.7);">לא סומנו חוזקות עיקריות בכוכבית.</p></sc-if>
+      </div>
+
+      <div class="rise" style="animation-delay:.34s;background:#fff;border-radius:20px;padding:22px;box-shadow:0 12px 34px rgba(20,24,60,.07);border:1px solid rgba(23,22,22,.05);margin-top:16px;border-top:4px solid #1F9AA6;">
+        <h3 style="margin:0 0 12px;font:600 19px Ploni;color:#1F9AA6;">החוזקות שסימנת עליהן 3-"במידה רבה"</h3>
+        <sc-if value="{{ has3 }}" hint-placeholder-val="{{ true }}"><div style="display:flex;flex-wrap:wrap;gap:8px;"><sc-for list="{{ rated3 }}" as="it" hint-placeholder-count="0"><span style="font:500 15px Ploni;color:#0E1F6B;background:#EAF4F5;border-radius:12px;padding:8px 15px;">{{ it.name }}</span></sc-for></div></sc-if>
+        <sc-if value="{{ no3 }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font:400 15px Ploni;color:#808285;">—</p></sc-if>
+      </div>
+
+      <div class="rise" style="animation-delay:.46s;background:#fff;border-radius:20px;padding:22px;box-shadow:0 12px 34px rgba(20,24,60,.07);border:1px solid rgba(23,22,22,.05);margin-top:14px;border-top:4px solid #3C6FD1;">
+        <h3 style="margin:0 0 12px;font:600 19px Ploni;color:#3C6FD1;">חוזקות שסימנת ב- 2-"במידה בינונית"</h3>
+        <sc-if value="{{ has2 }}" hint-placeholder-val="{{ true }}"><div style="display:flex;flex-wrap:wrap;gap:8px;"><sc-for list="{{ rated2 }}" as="it" hint-placeholder-count="0"><span style="font:500 15px Ploni;color:#1E3C95;background:#EBEFF9;border-radius:12px;padding:8px 15px;">{{ it.name }}</span></sc-for></div></sc-if>
+        <sc-if value="{{ no2 }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font:400 15px Ploni;color:#808285;">—</p></sc-if>
+      </div>
+
+      <div class="rise" style="animation-delay:.58s;background:#fff;border-radius:20px;padding:22px;box-shadow:0 12px 34px rgba(20,24,60,.07);border:1px solid rgba(23,22,22,.05);margin-top:14px;border-top:4px solid #9AA0A8;">
+        <h3 style="margin:0 0 12px;font:600 19px Ploni;color:#6B7079;">חוזקות שסימנת ב- 1-"במידה נמוכה"</h3>
+        <sc-if value="{{ has1 }}" hint-placeholder-val="{{ true }}"><div style="display:flex;flex-wrap:wrap;gap:8px;"><sc-for list="{{ rated1 }}" as="it" hint-placeholder-count="0"><span style="font:500 15px Ploni;color:#5B6068;background:#F1F1F0;border-radius:12px;padding:8px 15px;">{{ it.name }}</span></sc-for></div></sc-if>
+        <sc-if value="{{ no1 }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font:400 15px Ploni;color:#808285;">—</p></sc-if>
+      </div>
+
+      <div class="rise" style="animation-delay:.7s;background:#fff;border-radius:20px;padding:22px;box-shadow:0 12px 34px rgba(20,24,60,.07);border:1px solid rgba(23,22,22,.05);margin-top:14px;border-top:4px solid #D25089;">
+        <h3 style="margin:0 0 16px;font:600 19px Ploni;color:#AD2185;">תשובות הרפלקציה</h3>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <sc-for list="{{ reflectionSummary }}" as="r" hint-placeholder-count="3">
+            <div>
+              <sc-for list="{{ r.lines }}" as="ln" hint-placeholder-count="1"><p style="margin:0;font:600 16px/1.5 Ploni;color:#1E3C95;">{{ ln }}</p></sc-for>
+              <p style="margin:8px 0 0;font:400 16px/1.7 Ploni;color:#535353;white-space:pre-wrap;background:#FAFAF8;border-radius:12px;padding:13px 15px;border:1px solid #EEEDE8;">{{ r.answer }}</p>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:30px;">
+        <button onClick="{{ downloadSummary }}" disabled="{{ dlDisabled }}" style="{{ dlStyle }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-inline-end:6px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>הורדת סיכום</button>
+        <button onClick="{{ goResults }}" style="background:#fff;border:1.5px solid #1E3C95;color:#1E3C95;border-radius:999px;padding:13px 30px;font:600 17px Ploni;cursor:pointer;">חזרה לעריכה</button>
+        <button onClick="{{ restart }}" style="background:none;border:1.5px solid rgba(23,22,22,.15);color:#808285;border-radius:999px;padding:13px 30px;font:500 17px Ploni;cursor:pointer;">התחלה מחדש</button>
+      </div>
+    </section>
+    </sc-if>
+
+  </main>
+
+  <!-- milestone toast -->
+  <sc-if value="{{ showMilestone }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;bottom:36px;left:50%;transform:translateX(-50%);z-index:80;background:linear-gradient(145deg,#1E3C95,#040450);color:#fff;border-radius:999px;padding:12px 26px;font:600 18px Ploni;box-shadow:0 14px 36px rgba(20,24,60,.32);animation:floatBadge 1.5s ease forwards;display:flex;align-items:center;gap:10px;">
+      <span style="color:#F1B4CE;">✦</span>{{ milestoneText }}
+    </div>
+  </sc-if>
+
+  <div style="position:fixed;bottom:0;left:0;right:0;height:6px;display:grid;grid-template-columns:repeat(6,1fr);z-index:70;">
+    <span style="background:#6B76EC;"></span><span style="background:#73D9F0;"></span><span style="background:#A7C86F;"></span><span style="background:#F9BE94;"></span><span style="background:#F1717E;"></span><span style="background:#D25089;"></span>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:820},&quot;reducedMotionDefault&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  RATING = {
+    3: { label: `במידה רבה`, color: `#1F9AA6`, soft: `#E4F3F4`, ring: `rgba(31,154,166,.32)` },
+    2: { label: `במידה בינונית`, color: `#3C6FD1`, soft: `#EAF0FC`, ring: `rgba(60,111,209,.3)` },
+    1: { label: `במידה נמוכה`, color: `#8A9099`, soft: `#F1F1F0`, ring: `rgba(138,144,153,.28)` },
+  };
+  STEPS = [`פתיחה`,`אודות`,`לפני`,`אחרי`,`שאלון`,`עיבוד`,`מילון`,`רפלקציה`,`סיכום`];
+  SCREENS = [`intro`,`about`,`before`,`after`,`quiz`,`results`,`dictionary`,`reflection`,`summary`];
+  REFLECT = [
+    [`האם התוצאות מפתיעות אותך? באיזו מידה אתה מודע לחוזקות של הצוות שלך?`],
+    [`מה אתה עושה על-מנת שחברי הצוות יפגינו את החוזקות הללו בתפקידם ברמה היומיומית?`, `הגדר פעולות נוספות שתוכל לעשות על-מנת לאפשר לחברי הצוות לבטא את חוזקותיהן במידה מירבית`],
+    [`כיצד תוכל להמשיך לפתח את החוזקות הללו אצל חברי הצוות ולשכפל אותן למקרים ואינטראקציות נוספות?`],
+  ];
+  STRENGTHS = [
+    { name:`אהבה`, desc:`חברי הצוות מגלים חיבה זה לזה.`, dictTerm:`אהבה`, dictDef:`היכולת להעריך קרבה ויחסים בינאישיים לאחרים. היכולת להפגין חיבה.` },
+    { name:`אומץ`, desc:`לא נמנע מאתגרים או סיטואציות קשות. מבטא את מה שרואה לנכון, אפילו אם אחרים אינם מסכימים איתו.`, dictTerm:`אומץ`, dictDef:`היכולת להתגבר על פחד, להתמודד עם אמיתות לא נעימות, להגן על ערכים אפילו במחיר שאחרים לא מסכימים עם הנאמר.` },
+    { name:`אינטליגנציה חברתית`, desc:`מקדש גיוון ומעודד מגוון איכויות וכשרונות. מודע ורגיש למחשבות ותחושות חברי הצוות.`, dictTerm:`אינטליגנציה חברתית`, dictDef:`היכולת להיות מודע לרגשות ולצרכים של אנשים אחרים. היכולת לשמור על תחושת נוחות לכל חברי הצוות במצבים ובסיטואציות חברתיות שונות.` },
+    { name:`הוגנות`, desc:`לכל חברי הצוות הזדמנות הוגנת להביע דעה ולהציע הצעות.`, dictTerm:`הוגנות`, dictDef:`היכולת לשקול עקרונות מוסריים ולהסיק מה נכון לכל חברי הצוות מתוך סיטואציה מסוימת. יכולות הזדהות, אמפתיה וחמלה.` },
+    { name:`הומור`, desc:`לוקח את המציאות בפרופורציות, בחיוביות ובאופטימיות.`, dictTerm:`הומור`, dictDef:`היכולת לראות את היתרון בכל סיטואציה ולשמור על מצב רוח מרומם של חברי הצוות בסיטואציות מגוונות.` },
+    { name:`הכרת תודה`, desc:`שם לב ומעריך את הדברים הטובים שקורים. משקיע זמן בלהביע תודה.`, dictTerm:`הכרת תודה`, dictDef:`מודעות לדברים הטובים שקורים לחברי הצוות, ללא קבלה שלהם כמובנים מאליהם. אמירת תודה.` },
+    { name:`הנעת אחרים`, desc:`חברי הצוות דואגים להתגבש ולדרבן זה את זה להצלחה.`, dictTerm:`הנעת אנשים`, dictDef:`היכולת של חברי הצוות לעודד זה את זה להשלמת משימות ופרויקטים בהצלחה, תוך שמירה על יחסים טובים.` },
+    { name:`הערכה ליופי ומצוינות`, desc:`שם לב ומעריך יופי בסיטואציות רבות (טבע, אומנות, מוסיקה ועוד).`, dictTerm:`הערכה ליופי ומצוינות`, dictDef:`היכולת לראות ולהעריך יופי ומצוינות באובייקט פיסי, מיומנות וכישרון, ערכיות בכל תחומי החיים.` },
+    { name:`התמדה`, desc:`מסיים מה שהתחיל ומוצא דרכים להתגבר על מכשולים. מסופק מהשלמת משימות.`, dictTerm:`התמדה`, dictDef:`היכולת להתמיד במשימה עד סופה, להישאר ממוקדים נוכח מכשולים והפרעות. מאפשרת לחברי הצוות לשאת אתגרים ומאמץ לאורך זמן.` },
+    { name:`ויסות עצמי`, desc:`נמנע מעשיית יתר של דברים. שומר על "קור רוח".`, dictTerm:`ויסות עצמי`, dictDef:`היכולת להפגין מודעות לרגשות ולמעשים, להפגין משמעת ושליטה עצמית.` },
+    { name:`זהירות`, desc:`חושב מספר פעמים לפני קבלת החלטה. נמנע מלקחת סיכונים לא הכרחיים.`, dictTerm:`זהירות`, dictDef:`היכולת לתכנן לטווח קצר וארוך מטרות. צוות שלא מצטער על בחירותיו כי שקל אותן היטב.` },
+    { name:`יצירתיות`, desc:`חושב על דרכים חדשות ויצירתיות לביצוע. מסוגל לפתור בעיות בהרבה דרכים ייחודיות.`, dictTerm:`יצירתיות`, dictDef:`ייצור רעיונות או מעשים חדשים או יוצאי דופן ותורמים לצוות ולסביבתו באופן חיובי. שני פנים עיקריים ליצירתיות: סתגלנות ומקוריות.` },
+    { name:`כנות`, desc:`לוקח אחריות ומכיר בהצלחות לצד טעויות או כשלונות.`, dictTerm:`כנות`, dictDef:`היכולת להיות ישיר, להתנהל באופן אותנטי ונאמן למהות הצוות. היכולת לקחת אחריות על כשלונות לצד הצלחותיו של הצוות.` },
+    { name:`להט`, desc:`מתנהל ומבצע משימות עם אנרגיה והתרגשות.`, dictTerm:`להט`, dictDef:`היכולת לגשת למשימות בהתרגשות ולהיות מעורב בהן באופן מלא. מאפשר לצוות להגשים את עצמו ולחברי הצוות להיות שבעי רצון.` },
+    { name:`למדנות`, desc:`נהנה מלמידת מידע חדש.`, dictTerm:`למדנות`, dictDef:`היכולת לשאוף להשיג מידע וחוויות חדשות. היכולת ללמוד מקשיים וכישלונות ולהתמיד בדרך.` },
+    { name:`נדיבות`, desc:`חברי הצוות עוזרים זה לזה, משתפים במידע ומלמדים זה את זה.`, dictTerm:`נדיבות`, dictDef:`היכולת של חברי הצוות לעזור זה לזה ולהפיק הנאה הצוות מפגין סימפתיה, מוסריות ואחריות חברתית.` },
+    { name:`סקרנות`, desc:`מתעניין בהרבה דברים. מעוניין לחקור ולגלות דברים חדשים.`, dictTerm:`סקרנות`, dictDef:`הרצון לחקור רעיונות חדשים, פעילויות וחוויות. הרצון להגדיל ידע אישי.` },
+    { name:`עבודת צוות`, desc:`נרתם לשיתוף פעולה מירבי ומיטבי בין כל חברי הצוות.`, dictTerm:`עבודת צוות`, dictDef:`היכולת לעבוד בשיתוף פעולה. נאמן ומסור לרעיון ולערכים שעל פיהם הוא פועל.` },
+    { name:`צניעות`, desc:`מעשיו מדברים בעד עצמם. הצלחות נחגגות "בתוך הבית".`, dictTerm:`צניעות`, dictDef:`היכולת לבצע משימות בלי לצפות להיות בקדמת הבמה. מעדיף שיעריכו אותו על-פי מעשיו.` },
+    { name:`קבלה`, desc:`יודע לקבל טעויות בהבנה וכהזדמנות ללמידה.`, dictTerm:`קבלה`, dictDef:`היכולת להבין את הסיבות לטעויות או כשלונות ולראות בהם הזדמנות ללמידה.` },
+    { name:`ראייה רחבה`, desc:`מסוגל להעניק לאחרים עצות טובות. מסוגל לראות את "התמונה הגדולה".`, dictTerm:`ראייה רחבה`, dictDef:`היכולת לתאר סיטואציות ורעיונות בדרך הרלוונטית לאחרים. אחרים פונים אדם שחבריו אליו לעצה ותופשים את חבריו ככנבונים.` },
+    { name:`שיפוטיות`, desc:`מאמין ב-"סוף מעשה במחשבה תחילה". בוחן את כל האספקטים של הסיטואציה. פתוח לשינויים וניהול סיכונים מחושב.`, dictTerm:`שיפוטיות`, dictDef:`היכולת להסתמך על עובדות ולקבל החלטות מושכלות. מערב חשיבה היסקית ויכולת שקלול ובחינה של מרכיבים שונים ואף מנוגדים.` },
+    { name:`תחושה של כוונה`, desc:`חש משמעות וסיבה לפועלו. מרגיש חיבור למשהו גדול ממנו. גאוות יחידה.`, dictTerm:`תחושה של כוונה`, dictDef:`היכולת לחוש בעל משמעות ולהתחבר מטרה נעלה יותר. אמונותיו מסבות לו ביטחון והוא פועל בעקבותיהם בצורה שיכולה להעניק לחברי הצוות תחושת מימוש.` },
+    { name:`תקווה`, desc:`מצפה שאירועים טובים יתרחשו בעתיד ופועל לגרום לדברים טובים לקרות.`, dictTerm:`תקווה`, dictDef:`היכולת להאמין שיש לו שליטה על פעולותיו, לצפות לעתיד שיגיע ולפעול לשפרו. אופטימי ורואה את פעולותיו כתורמות לעתידו.` },
+  ];
+
+  _prevScreen = `intro`;
+  state = {
+    screen:`intro`, quizIndex:0,
+    ratings:new Array(24).fill(null),
+    primary:new Array(24).fill(false),
+    reflections:[``,``,``],
+    openDict:[], dictFilter:`all`,
+    reducedMotion:false, milestone:null, summaryReady:false,
+  };
+
+  componentDidMount(){
+    try{
+      const raw=localStorage.getItem(`viaTeamStrengths`);
+      if(raw){ const d=JSON.parse(raw);
+        this.setState({
+          ratings:Array.isArray(d.ratings)&&d.ratings.length===24?d.ratings:this.state.ratings,
+          primary:Array.isArray(d.primary)&&d.primary.length===24?d.primary:this.state.primary,
+          reflections:Array.isArray(d.reflections)&&d.reflections.length===3?d.reflections:this.state.reflections,
+        });
+      }
+    }catch(e){}
+    let rm=!!this.props.reducedMotionDefault;
+    try{ if(window.matchMedia && window.matchMedia(`(prefers-reduced-motion: reduce)`).matches) rm=true; }catch(e){}
+    if(rm) this.setState({reducedMotion:true});
+  }
+  persist(){
+    try{ localStorage.setItem(`viaTeamStrengths`, JSON.stringify({
+      ratings:this.state.ratings, primary:this.state.primary, reflections:this.state.reflections,
+    })); }catch(e){}
+  }
+  componentDidUpdate(){
+    if(this._prevScreen!==this.state.screen){
+      this._prevScreen=this.state.screen;
+      try{ window.scrollTo({top:0,behavior:this.state.reducedMotion?`auto`:`smooth`}); }catch(e){ try{window.scrollTo(0,0);}catch(e2){} }
+      if(this.state.screen===`summary`){ clearTimeout(this._sr); this._sr=setTimeout(()=>this.setState({summaryReady:true}), this.state.reducedMotion?60:1500); }
+      else if(this.state.summaryReady){ this.setState({summaryReady:false}); }
+    }
+  }
+  go(s){ this.setState({screen:s}); }
+  setRating(i,val){
+    this.setState(s=>{ const r=s.ratings.slice(), p=s.primary.slice(); r[i]=val; if(val!==3)p[i]=false; return {ratings:r,primary:p}; },
+      ()=>{ this.persist(); const ans=this.state.ratings.filter(x=>x!==null).length; if(ans===6||ans===12||ans===18) this.flash(ans); });
+  }
+  flash(n){ this.setState({milestone:n}); clearTimeout(this._mt); this._mt=setTimeout(()=>this.setState({milestone:null}),1500); }
+  togglePrimary(i){ if(this.state.ratings[i]!==3) return; this.setState(s=>{ const p=s.primary.slice(); p[i]=!p[i]; return {primary:p}; }, ()=>this.persist()); }
+  setReflection(idx,val){ this.setState(s=>{ const r=s.reflections.slice(); r[idx]=val; return {reflections:r}; }, ()=>this.persist()); }
+  toggleDict(i){ this.setState(s=>{ const o=s.openDict.slice(); const k=o.indexOf(i); if(k>=0)o.splice(k,1); else o.push(i); return {openDict:o}; }); }
+  qNext(){ const qi=this.state.quizIndex; if(qi<23) this.setState({quizIndex:qi+1}); else this.go(`results`); }
+  qPrev(){ const qi=this.state.quizIndex; if(qi>0) this.setState({quizIndex:qi-1}); else this.go(`after`); }
+  restart(){ if(typeof window!==`undefined` && window.confirm && !window.confirm(`להתחיל מחדש? כל הסימונים והתשובות יימחקו.`)) return;
+    this.setState({ screen:`intro`, quizIndex:0, ratings:new Array(24).fill(null), primary:new Array(24).fill(false), reflections:[``,``,``], openDict:[], dictFilter:`all`, summaryReady:false }, ()=>this.persist());
+  }
+  toggleRM(){ this.setState(s=>({reducedMotion:!s.reducedMotion})); }
+  downloadSummary(){
+    const esc=(s)=>String(s==null?``:s).replace(/&/g,`&amp;`).replace(/</g,`&lt;`).replace(/>/g,`&gt;`);
+    const S=this.STRENGTHS,r=this.state.ratings,p=this.state.primary,refl=this.state.reflections;
+    const list=(v)=>S.filter((s,i)=>r[i]===v).map(s=>s.name);
+    const prim=S.filter((s,i)=>p[i]).map(s=>s.name);
+    const li=(arr)=>arr.length?(`<ul>`+arr.map(n=>`<li>`+esc(n)+`</li>`).join(``)+`</ul>`):`<p style="color:#808285">—</p>`;
+    const html=`<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><title>סיכום חוזקות בצוות שלי</title><style>body{font-family:Arial,Helvetica,sans-serif;color:#171616;max-width:760px;margin:40px auto;padding:0 24px;line-height:1.65}h1{color:#1E3C95}h2{color:#AD2185;margin-top:30px;border-bottom:2px solid #F1B4CE;padding-bottom:6px;font-size:19px}li{margin:5px 0}.q{font-weight:bold;margin-top:16px;color:#1E3C95}.a{white-space:pre-wrap;background:#F6F4EF;border-radius:8px;padding:12px;margin-top:6px;min-height:24px}</style></head><body><h1>סיכום חוזקות בצוות שלי</h1><h2>חוזקות עיקריות (סומנו בכוכבית)</h2>${li(prim)}<h2>החוזקות שסימנת עליהן 3-&quot;במידה רבה&quot;</h2>${li(list(3))}<h2>חוזקות שסימנת ב- 2-&quot;במידה בינונית&quot;</h2>${li(list(2))}<h2>חוזקות שסימנת ב- 1-&quot;במידה נמוכה&quot;</h2>${li(list(1))}<h2>שאלות רפלקציה</h2><p class="q">${esc(this.REFLECT[0][0])}</p><div class="a">${esc(refl[0])}</div><p class="q">${esc(this.REFLECT[1].join(` `))}</p><div class="a">${esc(refl[1])}</div><p class="q">${esc(this.REFLECT[2][0])}</p><div class="a">${esc(refl[2])}</div></body></html>`;
+    try{
+      const blob=new Blob([html],{type:`text/html;charset=utf-8`});
+      const url=URL.createObjectURL(blob); const a=document.createElement(`a`);
+      a.href=url; a.download=`סיכום-חוזקות-בצוות-שלי.html`; document.body.appendChild(a); a.click();
+      setTimeout(()=>{ try{document.body.removeChild(a);}catch(e){} URL.revokeObjectURL(url); },120);
+    }catch(e){}
+  }
+
+  renderVals(){
+    const S=this.STRENGTHS, st=this.state, rm=st.reducedMotion;
+    const screen=st.screen, sIdx=this.SCREENS.indexOf(screen);
+    const steps=this.STEPS.map((label,i)=>({
+      style:{ flex:`1`, height:`5px`, borderRadius:`3px`, transition:`background-color .5s ease`,
+        background: i<sIdx?`#1E3C95`:(i===sIdx?`#D25089`:`#E4E2DD`) },
+    }));
+    const stepText=`שלב ${sIdx+1} מתוך 9 · ${this.STEPS[sIdx]}`;
+
+    // quiz
+    const qi=st.quizIndex, cur=S[qi], curR=st.ratings[qi];
+    const answered=st.ratings.filter(x=>x!==null).length;
+    const pct=Math.round(answered/24*100);
+    const ratingOptions=[3,2,1].map(v=>{
+      const m=this.RATING[v], sel=curR===v;
+      return {
+        num:String(v), label:m.label, selected:sel, aria:`${v} ${m.label}`,
+        onClick:()=>this.setRating(qi,v),
+        style:{ display:`flex`, alignItems:`center`, gap:`14px`, width:`100%`, minHeight:`62px`, padding:`12px 18px`, borderRadius:`16px`, cursor:`pointer`, textAlign:`right`, transition:`border-color .25s, background-color .25s, box-shadow .3s`, border:`2px solid ${sel?m.color:`#E7E5E0`}`, background:sel?m.soft:`#FFFFFF`, boxShadow:sel?`0 8px 22px ${m.ring}`:`0 1px 2px rgba(20,24,60,.04)`, color:`#171616`, font:`500 17px/1.3 Ploni, sans-serif`, animation:(sel&&!rm)?`popScale .42s cubic-bezier(.2,.8,.25,1)`:`none` },
+        badgeStyle:{ flex:`0 0 auto`, width:`40px`, height:`40px`, borderRadius:`50%`, display:`flex`, alignItems:`center`, justifyContent:`center`, font:`600 19px Ploni, sans-serif`, background:m.color, color:`#fff` },
+        checkStyle:{ flex:`0 0 auto`, width:`26px`, height:`26px`, borderRadius:`50%`, background:m.color, display:`flex`, alignItems:`center`, justifyContent:`center`, opacity:sel?1:0, transform:sel?`scale(1)`:`scale(.4)`, transition:`opacity .25s, transform .25s` },
+      };
+    });
+    const qNextDisabled=(curR===null)?true:undefined;
+    const qIsLast=qi===23;
+    const qNextLabel=qIsLast?`עיבוד תוצאות`:`המשך`;
+    const qNextStyle=(curR===null)
+      ? { background:`#E4E2DD`, color:`#A8A6A0`, border:`none`, borderRadius:`999px`, padding:`13px 34px`, font:`600 17px Ploni`, cursor:`not-allowed`, boxShadow:`none` }
+      : { background:qIsLast?`linear-gradient(145deg,#D25089,#AD2185)`:`linear-gradient(145deg,#1E3C95,#0E1F6B)`, color:`#fff`, border:`none`, borderRadius:`999px`, padding:`13px 34px`, font:`600 17px Ploni`, cursor:`pointer`, boxShadow:qIsLast?`0 10px 26px rgba(173,33,133,.3)`:`0 10px 26px rgba(20,24,60,.24)`, transition:`transform .2s`, animation:rm?`none`:`popScale .4s ease` };
+    const qBarStyle={ height:`100%`, width:`${pct}%`, background:`linear-gradient(90deg,#1E3C95,#2B92B7)`, borderRadius:`5px`, transition:`width .5s cubic-bezier(.2,.8,.25,1)` };
+    const qCardStyle={ background:`#fff`, borderRadius:`24px`, padding:`28px 26px 24px`, border:`1px solid #ECEAE4`, boxShadow:curR?`0 18px 50px ${this.RATING[curR].ring}`:`0 12px 34px rgba(20,24,60,.06)`, transition:`box-shadow .5s ease` };
+    const quizMap=S.map((s,i)=>{
+      const r=st.ratings[i], isCur=i===qi, col=r?this.RATING[r].color:null;
+      return { num:String(i+1), aria:`שאלה ${i+1}`, onClick:()=>this.setState({quizIndex:i}),
+        style:{ aspectRatio:`1/1`, width:`100%`, borderRadius:`9px`, display:`flex`, alignItems:`center`, justifyContent:`center`, cursor:`pointer`, font:`500 13px Ploni`, transition:`all .25s`, background:r?col:`#F1EFEA`, color:r?`#fff`:`#9AA0A8`, border:isCur?`2px solid #171616`:`2px solid transparent` } };
+    });
+
+    // lists
+    const buildChips=(v,star)=>{ const out=[]; S.forEach((s,i)=>{ if(st.ratings[i]===v){ const idx=out.length;
+      out.push({ name:s.name, delay:`${(idx*0.06).toFixed(2)}s`, starred:st.primary[i],
+        aria:`${st.primary[i]?`בטל סימון`:`סמן`} כוכבית — ${s.name}`,
+        onStar:star?(()=>this.togglePrimary(i)):undefined,
+        borderC: st.primary[i]?`#D25089`:`#CDE6E8`,
+        starStyle:{ flex:`0 0 auto`, width:`32px`, height:`32px`, borderRadius:`50%`, border:`none`, cursor:`pointer`, display:`flex`, alignItems:`center`, justifyContent:`center`, background:st.primary[i]?`#D25089`:`#fff`, boxShadow:st.primary[i]?`0 4px 12px rgba(210,80,137,.35)`:`inset 0 0 0 1.5px #D6B6C6`, transition:`background-color .25s, box-shadow .25s` },
+        starGlyphStyle:{ font:`16px Ploni`, color:st.primary[i]?`#fff`:`#D9AEC2`, display:`block`, animation:(st.primary[i]&&!rm)?`starPop .45s cubic-bezier(.2,.8,.25,1)`:`none` },
+      }); } }); return out; };
+    const rated3=buildChips(3,true), rated2=buildChips(2,false), rated1=buildChips(1,false);
+    const primaryList=S.filter((s,i)=>st.primary[i]).map((s,i)=>({name:s.name,delay:`${(i*0.08).toFixed(2)}s`}));
+
+    // dictionary
+    const dictAllStyle={ border:`none`, cursor:`pointer`, borderRadius:`999px`, padding:`9px 18px`, font:`500 14px Ploni`, transition:`all .25s`, background:st.dictFilter===`all`?`#fff`:`transparent`, color:st.dictFilter===`all`?`#1E3C95`:`#808285`, boxShadow:st.dictFilter===`all`?`0 2px 8px rgba(20,24,60,.1)`:`none` };
+    const dictMarkedStyle={ border:`none`, cursor:`pointer`, borderRadius:`999px`, padding:`9px 18px`, font:`500 14px Ploni`, transition:`all .25s`, background:st.dictFilter===`marked`?`#fff`:`transparent`, color:st.dictFilter===`marked`?`#1E3C95`:`#808285`, boxShadow:st.dictFilter===`marked`?`0 2px 8px rgba(20,24,60,.1)`:`none` };
+    let dShown=0;
+    const dictItems=S.map((s,i)=>({s,i}))
+      .filter(({i})=>st.dictFilter===`all`?true:st.ratings[i]===3)
+      .map(({s,i})=>{ const isOpen=st.openDict.indexOf(i)>=0; const d={
+        term:s.dictTerm, def:s.dictDef, starred:st.primary[i], isOpen, delay:`${(dShown*0.03).toFixed(2)}s`,
+        onToggle:()=>this.toggleDict(i),
+        chevStyle:{ marginInlineStart:`auto`, color:`#AD2185`, fontSize:`16px`, transform:isOpen?`rotate(180deg)`:`none`, transition:`transform .3s ease`, flex:`0 0 auto` },
+        bodyStyle:{ maxHeight:isOpen?`360px`:`0`, overflow:`hidden`, transition:`max-height .4s cubic-bezier(.2,.8,.25,1)` },
+      }; dShown++; return d; });
+    const dictEmpty=st.dictFilter===`marked` && dictItems.length===0;
+
+    // reflection
+    const reflections=this.REFLECT.map((lines,idx)=>({
+      num:String(idx+1), lines, value:st.reflections[idx], done:(st.reflections[idx]||``).trim().length>0,
+      delay:`${(idx*0.1).toFixed(2)}s`, aria:`תשובה לשאלה ${idx+1}`,
+      onChange:(e)=>this.setReflection(idx, e && e.target ? e.target.value : ``),
+    }));
+    const reflectionSummary=this.REFLECT.map((lines,idx)=>({ lines, answer:(st.reflections[idx]||``).trim()||`—` }));
+
+    // download button
+    const dlReady=st.summaryReady;
+    const dlStyle=dlReady
+      ? { background:`linear-gradient(145deg,#1E3C95,#0E1F6B)`, color:`#fff`, border:`none`, borderRadius:`999px`, padding:`13px 34px`, font:`600 17px Ploni`, cursor:`pointer`, boxShadow:`0 12px 30px rgba(20,24,60,.26)`, opacity:1, transform:`none`, transition:`opacity .5s, transform .5s` }
+      : { background:`#E4E2DD`, color:`#A8A6A0`, border:`none`, borderRadius:`999px`, padding:`13px 34px`, font:`600 17px Ploni`, cursor:`not-allowed`, boxShadow:`none`, opacity:.6, transform:`translateY(4px)`, transition:`opacity .5s, transform .5s` };
+
+    return {
+      rmAttr:rm?`1`:`0`, rmLabel:rm?`תנועה מופחתת`:`תנועה מלאה`, rmDot:rm?`#9AA0A8`:`#3DB874`, toggleRM:()=>this.toggleRM(),
+      steps, stepText,
+      isIntro:screen===`intro`, isAbout:screen===`about`, isBefore:screen===`before`, isAfter:screen===`after`,
+      isQuiz:screen===`quiz`, isResults:screen===`results`, isDict:screen===`dictionary`, isReflect:screen===`reflection`, isSummary:screen===`summary`,
+      goIntro:()=>this.go(`intro`), goAbout:()=>this.go(`about`), goBefore:()=>this.go(`before`), goAfter:()=>this.go(`after`),
+      goQuiz:()=>this.go(`quiz`), goResults:()=>this.go(`results`), goDict:()=>this.go(`dictionary`), goReflect:()=>this.go(`reflection`), goSummary:()=>this.go(`summary`),
+      goQuizLast:()=>this.setState({quizIndex:23,screen:`quiz`}),
+      qNum:String(qi+1), qName:cur.name, qDesc:cur.desc, ratingOptions,
+      qNext:()=>this.qNext(), qPrev:()=>this.qPrev(), qNextDisabled, qNextLabel, qNextStyle, qBarStyle, qCardStyle, quizMap,
+      rated3, rated2, rated1, primaryList,
+      has3:rated3.length>0, no3:rated3.length===0, has2:rated2.length>0, no2:rated2.length===0, has1:rated1.length>0, no1:rated1.length===0,
+      hasPrimary:primaryList.length>0, noPrimary:primaryList.length===0,
+      dictAll:()=>this.setState({dictFilter:`all`}), dictMarked:()=>this.setState({dictFilter:`marked`}),
+      dictAllStyle, dictMarkedStyle, dictItems, dictEmpty,
+      reflections, reflectionSummary,
+      downloadSummary:()=>this.downloadSummary(), dlStyle, dlDisabled: dlReady?undefined:true,
+      restart:()=>this.restart(),
+      showMilestone:st.milestone!==null, milestoneText:`${st.milestone||``}/24`,
+    };
+  }
+}
+</script>
+</body>
+</html>
